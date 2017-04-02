@@ -1,0 +1,66 @@
+//@author sj2
+public class Stack {
+	private String[] stack = new String[10];
+	private int size = 0;
+	
+	/** Adds a value to the top of the stack.*/
+	
+	public void push (String value)
+	{
+		size++;
+		if (size > stack.length) {
+			String[] old = stack;
+			stack = new String[size * 2];
+			for (int i = 0; i < old.length; i++)
+				stack[i+1] = old[i];
+		}
+		stack[0] = value;
+	}
+	
+	/** Removes the topmost string. If the stack is empty, returns null. */
+	public String pop() 
+	{
+		if (isEmpty())
+		{
+			return null;
+		}
+		String data = stack[size-1];
+		stack[size-1] = null;
+		size--;
+		return data;
+	}
+	
+	/** Returns the topmost string but does not remove it. If the stack is empty, returns null. */
+	public String peek() 
+	{
+		if (isEmpty())
+		{
+			return null;
+		}
+		String data = stack[size-1];
+		return data;
+	}
+	
+	/** Returns true iff the stack is empty */
+	public boolean isEmpty() {
+		return size==0;
+	}
+
+	/** Returns the number of items in the stack. */
+	public int length() 
+	{
+		return size;
+	}
+	
+	/** Returns a string representation of the stack. Each string is separated by a newline. Returns an empty string if the stack is empty. */
+	public String toString() {
+		String output = "";
+		for (int i = 0; i < size; i++)
+		{	
+
+			output += stack[i] + "\n";
+		}
+		
+		return output;
+	}
+}

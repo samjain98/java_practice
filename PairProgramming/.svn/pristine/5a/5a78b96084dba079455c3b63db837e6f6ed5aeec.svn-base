@@ -1,0 +1,100 @@
+/**
+ * @author sj2,rmkastl2
+   @reviewed kkumar24,arnchlm2,pramana2
+ */
+import java.util.Scanner;
+public class RainGame {
+
+	public static void main(String[] args) {
+		Scanner input = new Scanner (System.in);
+		// To get points type your netids above (CORRECTLY-Please double check your partner correctly spells your netid correctly!!)
+		// Your netid is the unique part of your @illinois email address
+		// Do not put your name or your UIN. 
+		// REMEMBER TO COMMIT this file...
+	
+		int x=0, y=0, dx=0, dy=0, score = -64, level = 0, numbers_killed = 0, lives = 3;
+		String text = "";
+		long startTime =System.currentTimeMillis();
+		Zen.setFont("Helvetica-36");
+		while (Zen.isRunning()) {
+			Zen.setColor(123, 111, 98);
+			Zen.fillRect(0, 0, Zen.getZenWidth(), Zen.getZenHeight());
+
+			Zen.setColor(255, 255, 255);
+			
+			Zen.drawText(text, x, y);
+			if (level == 0)
+			{
+				Zen.drawText("How many levels do you want to skip?" ,10,50);
+				int levelSkip = input.nextInt();
+				level = levelSkip;
+			}
+			if (text.length() == 0) {
+				
+				level++;
+				
+				x = Zen.getZenWidth()/ 2;
+				y = Zen.getZenHeight() / 10;
+				
+				dx = level*2;
+				dy = level;
+				
+				text = "" + (int) (Math.random() * 999);
+				long elapsed = System.currentTimeMillis() - startTime;
+				startTime = System.currentTimeMillis();
+				score += 10000 / elapsed;
+				if ( numbers_killed == 0)
+				{
+					score = 0;
+				}
+				
+				numbers_killed++;
+			}
+			
+			Zen.drawText("Level: " + level ,10,50);
+			Zen.drawText("Score: " + score ,10,100);
+			Zen.drawText("Lives: " + lives ,10,150);
+			x += dx;
+			y += dy;
+			if (y >= Zen.getZenHeight())
+			{
+				lives--;
+				y = Zen.getZenHeight() / 10;
+				//throw 
+			}
+			if (x <= 200 || x >= Zen.getZenWidth()){
+				dx = dx*-1;
+			}
+			if (lives == 0)
+			{
+				Zen.setColor(123, 111, 98);
+				Zen.fillRect(0, 0, Zen.getZenWidth(), Zen.getZenHeight());
+
+				Zen.setColor(255, 255, 255);
+
+				Zen.drawText("You lose!",10,200);
+			}
+			
+			if (lives == -1)
+			{
+				throw new StringIndexOutOfBoundsException();
+			}
+			
+			// Find out what keys the user has been pressing.
+			String user = Zen.getEditText();
+			// Reset the keyboard input to an empty string
+			// So next iteration we will only get the most recently pressed keys.
+			Zen.setEditText("");
+			
+			for(int i=0;i < user.length();i++) {
+				char c = user.charAt(i);
+				if(c == text.charAt(0))
+					text = text.substring(1,text.length()); // all except first character
+			}
+			
+			Zen.sleep(16);// sleep for 90 milliseconds
+			Zen.flipBuffer();
+		}
+	}
+
+}
